@@ -31,6 +31,11 @@ int main(void)
 		{
 			return (-1);
 		}
+		if (strcmp(line, "exit\n") == 0)
+		{
+			break;
+		}
+
 		pid = fork();
 		if (pid == 0)
 		{
@@ -42,8 +47,15 @@ int main(void)
 				token = strtok(NULL, " \n");
 			}
 			args[i] = NULL;
-			execve(args[0], args, NULL);
-			perror("execve");
+			if (args[0] == NULL)
+			{
+				exit(0);
+			}
+
+			if (execve(args[0], args, NULL) == -1)
+			{
+				perror("execve");
+			}
 		}
 		else
 		{
