@@ -9,6 +9,10 @@
 #include <string.h>
 
 int _strcmp(char *s1, char *s2);
+int _strcat(char *dest, char *src);
+int _strcpy(char *dest, char *src);
+char *_strdup(char *str);
+int _strlen(char *str);
 
 
 #endif
