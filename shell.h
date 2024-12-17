@@ -17,6 +17,7 @@ char *_strdup(char *str);
 int _strlen(char *str);
 char *_strchr(char *s, char c);
 void print_env(void);
+char *_getenv(const char *name);
 
 
 #endif

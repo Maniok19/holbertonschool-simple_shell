@@ -91,7 +91,7 @@ int main(void)
 	char *line = NULL;
 	size_t len = 0;
 	char *args[100] = {NULL};
-	char *path = getenv("PATH");
+	char *path = _getenv("PATH");
 	char *path_copy = _strdup(path);
 
 	while (1)
