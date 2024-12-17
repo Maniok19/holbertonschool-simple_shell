@@ -42,6 +42,11 @@ int main(void)
 				token = strtok(NULL, " \n");
 			}
 			args[i] = NULL;
+			if (args[0] == NULL)
+			{
+				exit(0);
+			}
+			
 			execve(args[0], args, NULL);
 			perror("execve");
 		}
