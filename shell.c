@@ -30,9 +30,7 @@ int main(void)
 			break;
 
 		if (strcmp(line, "exit\n") == 0)
-		{
 			break;
-		}
 		pid = fork();
 		if (pid == 0)
 		{
