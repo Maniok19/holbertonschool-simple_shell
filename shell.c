@@ -30,9 +30,13 @@ int main(void)
 		{
 			break;
 		}
-
 		pid = fork();
-		if (pid == 0)
+		if (pid == -1)
+		{
+			perror("Fork is not created");
+			return (1);
+		}
+		else if (pid == 0)
 		{
 			token = strtok(line, " \n");
 			i = 0;
