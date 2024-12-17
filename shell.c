@@ -94,6 +94,7 @@ int main(void)
 	char *path = _getenv("PATH");
 	char *path_copy = _strdup(path);
 
+	panneau_bienvenue();
 	while (1)
 	{
 		printf("$ ");
