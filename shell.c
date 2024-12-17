@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <stdlib.h>
-#include <string.h>
+#include "shell.h"
 
 
 /**
@@ -31,7 +26,7 @@ int main(void)
 		{
 			return (-1);
 		}
-		if (strcmp(line, "exit\n") == 0)
+		if (_strcmp(line, "exit\n") == 0)
 		{
 			break;
 		}
