@@ -49,6 +49,7 @@ int main(void)
 			args[i] = NULL;
 			if (args[0] == NULL)
 			{
+				free(line);
 				exit(0);
 			}
 
