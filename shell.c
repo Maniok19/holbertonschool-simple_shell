@@ -1,4 +1,3 @@
-#include "shell.h"
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -6,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/wait.h>
+#include "shell.h"
 
 /**
  * read_input - reads the input
@@ -18,7 +18,7 @@ void read_input(char **line, size_t *len)
 	if (getline(line, len, stdin) == -1)
 	{
 		perror("getline");
-		exit(EXIT_FAILURE);
+		exit(1);
 	}
 }
 /**
@@ -52,6 +52,18 @@ void execute_command(char **args, char *path_copy)
 	char *dir;
 	char full_path[1024];
 
+	/*Check if the command contains a slash*/
+	if (strchr(args[0], '/') != NULL)
+	{
+		if (stat(args[0], &st) == 0)
+		{
+			execve(args[0], args, NULL);
+			perror("execve");
+			exit(1);
+		}
+		perror("Command not found");
+		exit(1);
+	}
 	dir = strtok(path_copy, ":");
 	while (dir != NULL)
 	{
