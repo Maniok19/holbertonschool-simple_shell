@@ -19,3 +19,22 @@ char *_strchr(char *s, char c)
 	}
 	return (NULL);
 }
+/**
+ * print_env - prints the environment
+ * Return: void
+ */
+void print_env(void)
+{
+	int i = 0;
+
+	while (environ[i])
+	{
+		printf("%s\n", environ[i]);
+		i++;
+	}
+}
+/**
+ * _getenv - gets the environment
+ * @name: the name of the environment
+ * Return: the value of the environment variable
+ */

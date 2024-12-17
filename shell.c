@@ -100,6 +100,11 @@ int main(void)
 		read_input(&line, &len);
 		if (_strcmp(line, "exit\n") == 0)
 			break;
+		if (strcmp(line, "env\n") == 0)
+		{
+			print_env();
+			continue;
+		}
 		pid = fork();
 		if (pid == -1)
 		{
