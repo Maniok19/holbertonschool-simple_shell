@@ -53,7 +53,7 @@ void execute_command(char **args, char *path_copy)
 	char full_path[1024];
 
 	/*Check if the command contains a slash*/
-	if (strchr(args[0], '/') != NULL)
+	if (_strchr(args[0], '/') != NULL)
 	{
 		if (stat(args[0], &st) == 0)
 		{
@@ -100,7 +100,7 @@ int main(void)
 		read_input(&line, &len);
 		if (_strcmp(line, "exit\n") == 0)
 			break;
-		if (strcmp(line, "env\n") == 0)
+		if (_strcmp(line, "env\n") == 0)
 		{
 			print_env();
 			continue;
@@ -124,7 +124,6 @@ int main(void)
 		else
 			wait(NULL);
 	}
-
 	free(line);
 	free(path_copy);
 	return (0);
