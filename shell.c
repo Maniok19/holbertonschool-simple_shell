@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <stdlib.h>
-#include <string.h>
+#include "shell.h"
 
 
 /**
@@ -31,6 +26,11 @@ int main(void)
 		{
 			return (-1);
 		}
+		if (_strcmp(line, "exit\n") == 0)
+		{
+			break;
+		}
+
 		pid = fork();
 		if (pid == 0)
 		{
@@ -47,9 +47,11 @@ int main(void)
 				free(line);
 				exit(0);
 			}
-			
-			execve(args[0], args, NULL);
-			perror("execve");
+
+			if (execve(args[0], args, NULL) == -1)
+			{
+				perror("execve");
+			}
 		}
 		else
 		{
