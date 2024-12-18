@@ -19,7 +19,6 @@ char *_strchr(char *s, char c);
 void print_env(void);
 char *_getenv(const char *name);
 void panneau_bienvenue(void);
-void panneau_bienvenue2(void);
 
 
 #endif

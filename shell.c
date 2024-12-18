@@ -8,20 +8,6 @@
 #include "shell.h"
 
 /**
- * read_input - reads the input
- * @line: the input
- * @len: the length of the input
- * Return: void
- */
-void read_input(char **line, size_t *len)
-{
-	if (getline(line, len, stdin) == -1)
-	{
-		perror("getline");
-		exit(1);
-	}
-}
-/**
  * tokenize_input - tokenizes the input
  * @line: the input
  * @args: the tokenized input
@@ -98,7 +84,8 @@ int main(void)
 	while (1)
 	{
 		printf("$ ");
-		read_input(&line, &len);
+		if (getline(&line, &len, stdin) == -1)
+			break;
 		if (_strcmp(line, "exit\n") == 0)
 			break;
 		if (_strcmp(line, "env\n") == 0)
@@ -108,10 +95,7 @@ int main(void)
 		}
 		pid = fork();
 		if (pid == -1)
-		{
-			perror("Fork is not created");
 			return (1);
-		}
 		else if (pid == 0)
 		{
 			tokenize_input(line, args);
