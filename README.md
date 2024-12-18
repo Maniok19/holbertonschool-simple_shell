@@ -48,7 +48,7 @@ $ exit
 
 ## Authors
 - Mano
-- Holberton School
+- Sebastien
 
 ## License
 This project is licensed under the MIT License.
