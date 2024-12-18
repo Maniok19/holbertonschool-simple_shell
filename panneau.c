@@ -26,6 +26,7 @@ void panneau_bienvenue(void)
 
 	int nombreLignes = sizeof(lignes) / sizeof(lignes[0]);
 
+	printf("\033[2J\033[H");
 	for (int i = 0; i < nombreLignes; i++)
 	{
 		printf("%s\n", lignes[i]);
