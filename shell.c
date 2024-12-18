@@ -1,10 +1,3 @@
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <sys/wait.h>
 #include "shell.h"
 
 /**
@@ -13,6 +6,7 @@
  * @args: the tokenized input
  * Return: void
  */
+
 void tokenize_input(char *line, char **args)
 {
 	char *token;
@@ -26,12 +20,14 @@ void tokenize_input(char *line, char **args)
 	}
 	args[i] = NULL;
 }
+
 /**
  * execute_command - executes the command
  * @args: the command
  * @path_copy: the path
  * Return: void
  */
+
 void execute_command(char **args, char *path_copy)
 {
 	struct stat st;
@@ -67,10 +63,12 @@ void execute_command(char **args, char *path_copy)
 	perror("Command not found");
 	exit(1);
 }
+
 /**
  * main - the main function
  * Return: 0
  */
+
 int main(void)
 {
 	pid_t pid;

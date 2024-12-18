@@ -1,5 +1,4 @@
 #include "shell.h"
-#include <stdlib.h>
 
 /**
  * _strcmp - compares two strings
@@ -22,12 +21,14 @@ int _strcmp(char *s1, char *s2)
 
 	return (s1[i] - s2[i]);
 }
+
 /**
  * _strcat - concatenates two strings
  * @dest: the destination
  * @src: the source
  * Return: the length of the concatenated string
  */
+
 int _strcat(char *dest, char *src)
 {
 	int i, j;
@@ -42,12 +43,14 @@ int _strcat(char *dest, char *src)
 	dest[i + j] = '\0';
 	return (i + j);
 }
+
 /**
  * _strcpy - copies a string
  * @dest: the destination
  * @src: the source
  * Return: the length of the source
  */
+
 int _strcpy(char *dest, char *src)
 {
 	int i;
@@ -59,11 +62,13 @@ int _strcpy(char *dest, char *src)
 	dest[i] = '\0';
 	return (i);
 }
+
 /**
  * _strdup - duplicates a string
  * @str: the string to duplicate
  * Return: the duplicated string
  */
+
 char *_strdup(char *str)
 {
 	int i;
@@ -81,11 +86,13 @@ char *_strdup(char *str)
 	dup[i] = '\0';
 	return (dup);
 }
+
 /**
  * _strlen - gets the length of a string
  * @str: the string
  * Return: the length of the string
  */
+
 int _strlen(char *str)
 {
 	int i;

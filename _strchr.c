@@ -6,6 +6,7 @@
  * @c: the character
  * Return: a pointer to the first occurrence of the character c in the string s
  */
+
 char *_strchr(char *s, char c)
 {
 	int i;
@@ -19,10 +20,12 @@ char *_strchr(char *s, char c)
 	}
 	return (NULL);
 }
+
 /**
  * print_env - prints the environment
  * Return: void
  */
+
 void print_env(void)
 {
 	int i = 0;
@@ -33,12 +36,14 @@ void print_env(void)
 		i++;
 	}
 }
+
 /**
  * _getenv - gets the value of an environment variable
  * @name: the name of the environment variable
  *
  * Return: the value of the environment variable, or NULL if not found
  */
+
 char *_getenv(const char *name)
 {
 	char *result = NULL;

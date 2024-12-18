@@ -1,9 +1,10 @@
 #include "shell.h"
-#include <stdio.h>
+
 /**
  * panneau_bienvenue - affiche le panneau de bienvenue
  * Return: void
  */
+
 void panneau_bienvenue(void)
 {
 	const char *lignes[] = {
