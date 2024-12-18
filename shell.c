@@ -1,6 +1,24 @@
 #include "shell.h"
 
 /**
+ * handle_path - handles the PATH
+ * Return: the path
+ */
+
+char *handle_path(void)
+{
+	char *path = _getenv("PATH");
+	char *path_copy = _strdup(path);
+
+	if (path == NULL || path_copy == NULL)
+	{
+		perror("Error");
+		exit(1);
+	}
+	return (path_copy);
+}
+
+/**
  * tokenize_input - tokenizes the input
  * @line: the input
  * @args: the tokenized input
@@ -75,13 +93,13 @@ int main(void)
 	char *line = NULL;
 	size_t len = 0;
 	char *args[100] = {NULL};
-	char *path = _getenv("PATH");
-	char *path_copy = _strdup(path);
+	char *path_copy = handle_path();
 
 	panneau_bienvenue();
 	while (1)
 	{
-		printf("$ ");
+		if (isatty(STDIN_FILENO) == 1)
+			printf("$ ");
 		if (getline(&line, &len, stdin) == -1)
 			break;
 		if (_strcmp(line, "exit\n") == 0)

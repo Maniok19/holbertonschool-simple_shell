@@ -20,6 +20,7 @@ char *_strchr(char *s, char c);
 void print_env(void);
 char *_getenv(const char *name);
 void panneau_bienvenue(void);
+char *handle_path(void);
 
 
 #endif
