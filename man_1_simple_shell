@@ -1,0 +1,51 @@
+.TH SIMPLE_SHELL 1 "December 2024" "1.0" "Simple Shell Manual"
+.SH NAME
+simple_shell \- a simple UNIX command interpreter
+
+.SH SYNOPSIS
+.B simple_shell
+.RI [ options ]
+
+.SH DESCRIPTION
+.B simple_shell
+is a simple UNIX command interpreter that replicates the basic functionalities of the shell. It reads commands from the user, executes them, and displays the output.
+
+.SH OPTIONS
+The
+.B simple_shell
+program does not take any options.
+
+.SH BUILT-IN COMMANDS
+.TP
+.B exit
+Exit the shell.
+.TP
+.B env
+Print the environment variables.
+
+.SH USAGE
+To start the shell, run:
+.EX
+$ ./shell
+.EE
+
+.SH EXAMPLES
+Here are some examples of how to use the simple_shell:
+
+.EX
+$ ./simple_shell
+$ ls -l
+total 8
+-rwxrwxr-x 1 user user  0 Oct  1 12:34 file1
+-rwxrwxr-x 1 user user  0 Oct  1 12:34 file2
+$ env
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+HOME=/home/user
+$ exit
+.EE
+
+.SH AUTHORS
+Mano and Sebastien
+
+.SH LICENSE
+This project is licensed under the MIT License.
