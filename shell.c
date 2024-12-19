@@ -13,7 +13,7 @@ char *handle_path(void)
 	if (path == NULL || path_copy == NULL)
 	{
 		perror("Error");
-		exit(1);
+		return (NULL);
 	}
 	return (path_copy);
 }
@@ -43,10 +43,12 @@ void tokenize_input(char *line, char **args)
  * execute_command - executes the command
  * @args: the command
  * @path_copy: the path
+ * @argv: the argument vector
+ * @linecount: the line count
  * Return: void
  */
 
-void execute_command(char **args, char *path_copy)
+void execute_command(char **args, char *path_copy, char **argv, int linecount)
 {
 	struct stat st;
 	char *dir;
@@ -59,10 +61,10 @@ void execute_command(char **args, char *path_copy)
 		{
 			execve(args[0], args, NULL);
 			perror("execve");
-			exit(1);
+			exit(0);
 		}
-		perror("Command not found");
-		exit(1);
+		printf("%s: %d: %s: not found\n", argv[0], linecount, args[0]);
+		exit(127);
 	}
 	dir = strtok(path_copy, ":");
 	while (dir != NULL)
@@ -74,34 +76,45 @@ void execute_command(char **args, char *path_copy)
 		{
 			execve(full_path, args, NULL);
 			perror("execve");
-			break;
+			exit(0);
 		}
 		dir = strtok(NULL, ":");
 	}
-	perror("Command not found");
-	exit(1);
+	printf("%s: %d: %s: not found\n", argv[0], linecount, args[0]);
+	exit(127);
 }
+
 
 /**
  * main - the main function
+ * @argc: the argument count
+ * @argv: the argument vector
  * Return: 0
  */
 
-int main(void)
+int main(int argc, char **argv)
 {
 	pid_t pid;
 	char *line = NULL;
 	size_t len = 0;
 	char *args[100] = {NULL};
 	char *path_copy = handle_path();
+	int linecount = 0;
+	int interactive = isatty(STDIN_FILENO);
+	int status = 0;
 
-	panneau_bienvenue();
 	while (1)
 	{
-		if (isatty(STDIN_FILENO) == 1)
+		if (interactive)
 			printf("$ ");
+		fflush(stdout);
+
 		if (getline(&line, &len, stdin) == -1)
+		{
+			free(line);
 			break;
+		}
+		linecount++;
 		if (_strcmp(line, "exit\n") == 0)
 			break;
 		if (_strcmp(line, "env\n") == 0)
@@ -120,12 +133,20 @@ int main(void)
 				free(line);
 				exit(0);
 			}
-			execute_command(args, path_copy);
+			path_copy = handle_path();
+			execute_command(args, path_copy, argv, linecount);
+			if (path_copy)
+				free(path_copy);
+			if (!interactive)
+				exit(0);
 		}
 		else
-			wait(NULL);
+			status = wait(&status);
+		if (!interactive)
+			break;
 	}
 	free(line);
-	free(path_copy);
-	return (0);
+	if (path_copy)
+		free(path_copy);
+	return (status);
 }
