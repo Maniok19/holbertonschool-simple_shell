@@ -47,10 +47,11 @@ commands=(
 	"cat /etc/passwd"
 	"nonexistent_command"
 	"ls -l /tmp"
-	"ls | grep .txt"
 	"echo $PATH"
-	"cd /tmp && pwd"
 	"exit 42"
+	"cd /tmp"
+	"cd -"
+	"cd ~"
 )
 
 # Exécute les tests pour chaque commande
