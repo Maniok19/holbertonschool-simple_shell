@@ -141,12 +141,13 @@ int main(int argc, char **argv)
 				exit(0);
 		}
 		else
-			status = wait(&status);
+			wait(&status);
 		if (!interactive)
 			break;
 	}
 	free(line);
 	if (path_copy)
 		free(path_copy);
-	return (status);
+		printf("%d\n", status);
+	return (WEXITSTATUS(status));
 }
