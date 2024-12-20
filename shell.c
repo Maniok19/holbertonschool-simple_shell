@@ -1,14 +1,58 @@
 #include "shell.h"
+/**
+ * print_env - prints the environment
+ * Return: void
+ */
+int handle_cd(char **args, int linecount, char **argv)
+{
+    char *dir = args[1];
+    char cwd[1024];
+    char *old_pwd;
+    
+    if (dir == NULL || strcmp(dir, "~") == 0)
+        dir = _getenv("HOME");
+    else if (strcmp(dir, "-") == 0)
+    {
+        old_pwd = _getenv("OLDPWD");
+        if (old_pwd == NULL || *old_pwd == '\0')
+        {
+            if (getcwd(cwd, sizeof(cwd)) != NULL)
+                printf("%s\n", cwd);
+            else
+                perror("getcwd");
+            return 0;
+        }
+        dir = old_pwd;
+        printf("%s\n", dir);
+    }
 
+    if (chdir(dir) == -1)
+    {
+        printf("%s: %d: %s: can't cd to %s\n", argv[0], linecount, args[0], dir);
+        return 1;
+    }
+
+    if (getcwd(cwd, sizeof(cwd)) != NULL)
+    {
+        setenv("OLDPWD", _getenv("PWD"), 1);
+        setenv("PWD", cwd, 1);
+    }
+    else
+    {
+        perror("getcwd");
+        return 1;
+    }
+    return 0;
+}
 /**
  * print_env - prints the environment
  * Return: void
  */
 void handle_sigint(int sig)
 {
-    (void)sig;
-    write(STDOUT_FILENO, "\n$ ", 3);
-    fflush(stdout);
+	(void)sig;
+	write(STDOUT_FILENO, "\n$ ", 3);
+	fflush(stdout);
 }
 /**
  * handle_exit - handles the exit command
@@ -148,6 +192,11 @@ int main(int argc, char **argv)
 		tokenize_input(line, args);
 		if (args[0] == NULL)
 			continue;
+		if (_strcmp(args[0], "cd") == 0)
+		{
+			handle_cd(args, linecount, argv);
+			continue;
+		}
 		if (_strcmp(args[0], "exit") == 0)
 		{
 			status = handle_exit(args);
