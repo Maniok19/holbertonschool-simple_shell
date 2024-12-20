@@ -1,4 +1,15 @@
 #include "shell.h"
+
+/**
+ * print_env - prints the environment
+ * Return: void
+ */
+void handle_sigint(int sig)
+{
+    (void)sig;
+    write(STDOUT_FILENO, "\n$ ", 3);
+    fflush(stdout);
+}
 /**
  * handle_exit - handles the exit command
  * @args: the command arguments
@@ -119,6 +130,9 @@ int main(int argc, char **argv)
 	int linecount = 0;
 	int interactive = isatty(STDIN_FILENO);
 	int status = 0;
+
+	(void)argc;
+	signal(SIGINT, handle_sigint);
 
 	while (1)
 	{
