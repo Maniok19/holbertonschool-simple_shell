@@ -1,5 +1,24 @@
 #include "shell.h"
+/**
+ * handle_exit - handles the exit command
+ * @args: the command arguments
+ * Return: exit status
+ */
+int handle_exit(char **args)
+{
+	int status = 0;
 
+	if (args[1] != NULL)
+	{
+		status = atoi(args[1]);
+		if (status < 0)
+		{
+			fprintf(stderr, "./shell: 1: exit: Illegal number: %s\n", args[1]);
+			return (2);
+		}
+	}
+	return (status);
+}
 /**
  * handle_path - handles the PATH
  * Return: the path
@@ -106,16 +125,24 @@ int main(int argc, char **argv)
 		if (interactive)
 			printf("$ ");
 		fflush(stdout);
-
 		if (getline(&line, &len, stdin) == -1)
 		{
 			free(line);
 			break;
 		}
 		linecount++;
-		if (_strcmp(line, "exit\n") == 0)
-			break;
-		if (_strcmp(line, "env\n") == 0)
+		tokenize_input(line, args);
+		if (args[0] == NULL)
+			continue;
+		if (_strcmp(args[0], "exit") == 0)
+		{
+			status = handle_exit(args);
+			free(line);
+			if (path_copy)
+				free(path_copy);
+			exit(status);
+		}
+		if (_strcmp(args[0], "env") == 0)
 		{
 			print_env();
 			continue;
@@ -125,18 +152,11 @@ int main(int argc, char **argv)
 			return (1);
 		else if (pid == 0)
 		{
-			tokenize_input(line, args);
-			if (args[0] == NULL)
-			{
-				free(line);
-				exit(0);
-			}
 			path_copy = handle_path();
 			execute_command(args, path_copy, argv, linecount);
 			if (path_copy)
 				free(path_copy);
-			if (!interactive)
-				exit(0);
+			exit(0);
 		}
 		else
 			wait(&status);

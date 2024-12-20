@@ -38,7 +38,7 @@ test_command() {
 commands=(
     "ls"
     "lm"
-    "ls -poyui"
+    "ls -poykjghfui"
     "/bin/ls"
     "/hgdsk"
     "echo Hello, World!"
