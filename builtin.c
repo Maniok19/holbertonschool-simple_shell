@@ -116,7 +116,7 @@ int handle_exit(char **args)
 
 	if (args[1] != NULL)
 	{
-		status = atoi(args[1]);
+		status = _atoi(args[1]);
 		if (status < 0)
 		{
 			fprintf(stderr, "./shell: 1: exit: Illegal number: %s\n", args[1]);
