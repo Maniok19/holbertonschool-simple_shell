@@ -60,7 +60,6 @@ void execute_command(char **args, char *path_copy, char **argv, int linecount)
 		if (stat(args[0], &st) == 0)
 		{
 			execve(args[0], args, NULL);
-			perror("execve");
 			exit(0);
 		}
 		printf("%s: %d: %s: not found\n", argv[0], linecount, args[0]);
@@ -75,7 +74,6 @@ void execute_command(char **args, char *path_copy, char **argv, int linecount)
 		if (stat(full_path, &st) == 0)
 		{
 			execve(full_path, args, NULL);
-			perror("execve");
 			exit(0);
 		}
 		dir = strtok(NULL, ":");
@@ -148,6 +146,5 @@ int main(int argc, char **argv)
 	free(line);
 	if (path_copy)
 		free(path_copy);
-		printf("%d\n", status);
 	return (WEXITSTATUS(status));
 }
