@@ -10,7 +10,8 @@ int is_builtin(char *cmd)
 			_strcmp(cmd, "exit") == 0 ||
 			_strcmp(cmd, "env") == 0 ||
 			_strcmp(cmd, "setenv") == 0 ||
-			_strcmp(cmd, "unsetenv") == 0);
+			_strcmp(cmd, "unsetenv") == 0 ||
+			_strcmp(cmd, "help") == 0);
 }
 
 /**
@@ -113,6 +114,11 @@ void handle_command(char **args, char **argv, int linecount, int *status,
 	if (_strcmp(args[0], "unsetenv") == 0)
 	{
 		*status = handle_unsetenv(args);
+		return;
+	}
+	if (_strcmp(args[0], "help") == 0)
+	{
+		print_help(args[1]);
 		return;
 	}
 }
