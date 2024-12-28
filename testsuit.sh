@@ -53,6 +53,7 @@ commands=(
 	"cd -"
 	"cd ~"
 	"echo mano # comment"
+	"ls ; ls"
 )
 
 # Exécute les tests pour chaque commande

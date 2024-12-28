@@ -50,23 +50,35 @@ void main_loop(char **argv, int interactive)
 	char *args[100] = {NULL};
 	char *path_copy = handle_path();
 	size_t len = 0;
-	int linecount = 0;
-	int status = 0;
+	int linecount = 0, status = 0, i = 0;
+	char **commands;
+	int command_count;
 
 	while (1)
 	{
 		prompt_user(interactive);
-
 		if (!read_input(&line, &len))
 		{
 			free(line);
 			break;
 		}
 		linecount++;
-		tokenize_input(line, args);
-		if (args[0] == NULL)
+		commands = split_commands(line, &command_count);
+		if (!commands)
+		{
+			fprintf(stderr, "Memory allocation error\n");
 			continue;
-		process_command(args, argv, linecount, &status, line, path_copy);
+		}
+		for (i = 0; i < command_count; i++)
+		{
+			tokenize_input(commands[i], args);
+			if (args[0] == NULL)
+				continue;
+			process_command(args, argv, linecount, &status, line, path_copy);
+		}
+		for (i = 0; i < command_count; i++)
+			free(commands[i]);
+		free(commands);
 		if (!interactive)
 			break;
 	}

@@ -39,6 +39,7 @@ void process_command(char **args, char **argv, int linecount, int *status,
 					 char *line, char *path_copy);
 int _atoi(char *s);
 void print_help(char *command);
+char **split_commands(char *line, int *count);
 
 
 
