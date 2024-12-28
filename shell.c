@@ -24,6 +24,10 @@ void tokenize_input(char *line, char **args)
 {
 	char *token;
 	int i = 0;
+	char *comment = _strchr(line, '#');
+
+	if (comment != NULL)
+		*comment = '\0';
 
 	token = strtok(line, " \n");
 	while (token != NULL)
