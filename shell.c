@@ -62,7 +62,7 @@ void execute_command(char **args, char *path_copy, char **argv, int linecount)
 	{
 		if (stat(args[0], &st) == 0)
 		{
-			execve(args[0], args, NULL);
+			execve(args[0], args, environ);
 			perror("execve");
 			exit(1);
 		}
@@ -78,7 +78,7 @@ void execute_command(char **args, char *path_copy, char **argv, int linecount)
 		_strcat(full_path, args[0]);
 		if (stat(full_path, &st) == 0)
 		{
-			execve(full_path, args, NULL);
+			execve(full_path, args, environ);
 			perror("execve");
 			exit(1);
 		}
