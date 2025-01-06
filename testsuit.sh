@@ -1,5 +1,9 @@
 #!/bin/bash
-
+gcc -Wall -Werror -Wextra -pedantic -std=gnu89 -o hsh *.c
+if [ $? -ne 0 ]; then
+	echo "Compilation failed"
+	exit 1
+fi
 # Fonction pour exécuter une commande sur les deux shells
 # et comparer les résultats
 test_command() {
@@ -7,7 +11,7 @@ test_command() {
 	echo "Testing command: $command"
 
 	# Exécute la commande sur votre shell personnalisé
-	custom_output=$(echo "$command" | ./shell 2>&1)
+	custom_output=$(echo "$command" | ./hsh 2>&1)
 	custom_exit_code=$?
 
 	# Exécute la commande sur sh
