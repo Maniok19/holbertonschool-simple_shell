@@ -149,22 +149,33 @@ void process_command(char **args, char **argv, int linecount, int *status,
 					 char *line, char *path_copy)
 {
 	if (is_builtin(args[0]))
+	{
 		handle_command(args, argv, linecount, status, line, path_copy);
+	}
 	else
 	{
 		pid_t pid = fork();
 
 		if (pid == -1)
+		{
+			perror("fork");
 			exit(1);
+		}
 		else if (pid == 0)
 		{
-			path_copy = handle_path();
-			execute_command(args, path_copy, argv, linecount);
-			if (path_copy)
-				free(path_copy);
-			exit(0);
+			char *new_path_copy = handle_path();
+
+			if (new_path_copy == NULL)
+			{
+				fprintf(stderr, "Failed to get PATH\n");
+				exit(1);
+			}
+			execute_command(args, new_path_copy, argv, linecount);
+			free(new_path_copy);
 		}
 		else
+		{
 			wait(status);
+		}
 	}
 }
