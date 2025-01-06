@@ -6,9 +6,15 @@
 char *handle_path(void)
 {
 	char *path = _getenv("PATH");
-	char *path_copy = _strdup(path);
+	char *path_copy = NULL;
 
-	if (path == NULL || path_copy == NULL)
+	if (path == NULL)
+	{
+		perror("Error");
+		return (NULL);
+	}
+	path_copy = _strdup(path);
+	if (path_copy == NULL)
 	{
 		perror("Error");
 		return (NULL);
