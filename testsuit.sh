@@ -42,9 +42,16 @@ test_command() {
 # Liste des commandes à tester
 commands=(
 	"ls"
+	"pwd"
+	"date"
 	"lm"
+	"ls non_existent_directory"
+	"./non_existent_command"
 	"ls -poykjghfui"
+	"ls -l"
 	"/bin/ls"
+	"cat /etc/passwd"
+	"grep root /etc/passwd"
 	"/hgdsk"
 	"echo Hello, World!"
 	"pwd"
@@ -55,9 +62,15 @@ commands=(
 	"exit 42"
 	"cd /tmp"
 	"cd -"
+	"cd"
+	"cd .."
 	"cd ~"
 	"echo mano # comment"
 	"ls ; ls"
+	"env"
+	"exit"
+	"ls -l ; pwd ; echo Hello"
+
 )
 
 # Exécute les tests pour chaque commande
