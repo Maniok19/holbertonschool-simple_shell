@@ -34,7 +34,6 @@ int handle_unsetenv(char **args);
 void main_loop(char **argv, int interactive);
 int is_builtin(char *cmd);
 void prompt_user(int interactive);
-int read_input(char **line, size_t *len);
 void process_command(char **args, char **argv, int linecount, int *status,
 					 char *line, char *path_copy);
 int _atoi(char *s);
