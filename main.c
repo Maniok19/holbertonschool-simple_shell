@@ -50,7 +50,7 @@ void main_loop(char **argv, int interactive)
 	char *args[100] = {NULL};
 	char *path_copy = handle_path();
 	size_t len = 0;
-	int linecount = 0, status = 0, i = 0;
+	int linecount = 0, status = 0, i;
 	char **commands;
 	int command_count;
 
@@ -59,7 +59,6 @@ void main_loop(char **argv, int interactive)
 		prompt_user(interactive);
 		if (!read_input(&line, &len))
 		{
-			free(line);
 			break;
 		}
 		linecount++;
@@ -83,8 +82,7 @@ void main_loop(char **argv, int interactive)
 			break;
 	}
 	free(line);
-	if (path_copy)
-		free(path_copy);
+	free(path_copy);
 	exit(WEXITSTATUS(status));
 }
 /**

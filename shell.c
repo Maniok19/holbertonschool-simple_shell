@@ -50,19 +50,27 @@ void execute_command(char **args, char *path_copy, char **argv, int linecount)
 	struct stat st;
 	char *dir;
 	char full_path[1024];
+	char *path_copy_local = _strdup(path_copy);
+
+	if (path_copy_local == NULL)
+	{
+		perror("Memory allocation error");
+		exit(1);
+	}
 
 	if (_strchr(args[0], '/') != NULL)
 	{
 		if (stat(args[0], &st) == 0)
 		{
 			execve(args[0], args, NULL);
-			exit(0);
+			perror("execve");
+			exit(1);
 		}
 		printf("%s: %d: %s: not found\n", argv[0], linecount, args[0]);
 		exit(127);
 	}
 
-	dir = strtok(path_copy, ":");
+	dir = strtok(path_copy_local, ":");
 	while (dir != NULL)
 	{
 		_strcpy(full_path, dir);
@@ -71,12 +79,13 @@ void execute_command(char **args, char *path_copy, char **argv, int linecount)
 		if (stat(full_path, &st) == 0)
 		{
 			execve(full_path, args, NULL);
-			exit(0);
+			perror("execve");
+			exit(1);
 		}
 		dir = strtok(NULL, ":");
 	}
-
 	printf("%s: %d: %s: not found\n", argv[0], linecount, args[0]);
+	free(path_copy_local);
 	exit(127);
 }
 /**
