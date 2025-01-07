@@ -10,13 +10,13 @@ char *handle_path(void)
 
 	if (path == NULL)
 	{
-		perror("Error");
+		fprintf(stderr, "Error: PATH environment variable not found\n");
 		return (NULL);
 	}
 	path_copy = _strdup(path);
 	if (path_copy == NULL)
 	{
-		perror("Error");
+		fprintf(stderr, "Error: Memory allocation error\n");
 		return (NULL);
 	}
 	return (path_copy);
