@@ -35,6 +35,38 @@ void prompt_user(int interactive)
 	}
 }
 /**
+ * handle_commands - Handle multiple commands
+ * @cmds: Array of commands
+ * @command_count: Number of commands
+ * @args: Array of arguments
+ * @argv: Array of arguments passed to the program
+ * @linecount: Line count
+ * @status: Exit status
+ * @line: Input line
+ * @path_copy: Copy of the PATH environment variable
+ * Return: Nothing
+ */
+void handle_commands(char **cmds, int command_count, char **args, char **argv,
+					int linecount, int *status, char *line, char *path_copy)
+{
+	int i;
+
+	for (i = 0; i < command_count; i++)
+	{
+		tokenize_input(cmds[i], args);
+		if (args[0] == NULL)
+			continue;
+		if (is_builtin(args[0]) && _strcmp(args[0], "exit") == 0)
+		{
+			*status = handle_exit(args);
+			cleanup_commands(cmds, command_count);
+			cleanup_resources(line, path_copy);
+			exit(*status);
+		}
+		process_command(args, argv, linecount, status, line, path_copy);
+	}
+}
+/**
  * main_loop - Main loop of the shell
  * @argv: Array of arguments
  * @interactive: Flag to indicate if the shell is interactive
@@ -44,9 +76,14 @@ void main_loop(char **argv, int interactive)
 {
 	char *line = NULL, *args[100] = {NULL}, *path_copy = handle_path(), **cmds;
 	size_t len = 0;
-	int linecount = 0, status = 0, i, command_count;
+	int linecount = 0, status = 0, command_count;
 	ssize_t read_bytes;
 
+	if (!path_copy)
+	{
+		fprintf(stderr, "Failed to get PATH\n");
+		return;
+	}
 	while (1)
 	{
 		prompt_user(interactive);
@@ -66,21 +103,13 @@ void main_loop(char **argv, int interactive)
 			fprintf(stderr, "Memory allocation error\n");
 			continue;
 		}
-		for (i = 0; i < command_count; i++)
-		{
-			tokenize_input(cmds[i], args);
-			if (args[0] == NULL)
-				continue;
-			process_command(args, argv, linecount, &status, line, path_copy);
-		}
-		for (i = 0; i < command_count; i++)
-			free(cmds[i]);
-		free(cmds);
+		handle_commands(cmds, command_count, args, argv,
+						 linecount, &status, line, path_copy);
+		cleanup_commands(cmds, command_count);
 		if (!interactive)
 			break;
 	}
-	free(line);
-	free(path_copy);
+	cleanup_resources(line, path_copy);
 	exit(WEXITSTATUS(status));
 }
 /**

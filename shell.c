@@ -47,9 +47,6 @@ void tokenize_input(char *line, char **args)
  */
 void execute_command(char **args, char *path_copy, char **argv, int linecount)
 {
-	struct stat st;
-	char *dir;
-	char full_path[1024];
 	char *path_copy_local = _strdup(path_copy);
 
 	if (path_copy_local == NULL)
@@ -60,33 +57,12 @@ void execute_command(char **args, char *path_copy, char **argv, int linecount)
 
 	if (_strchr(args[0], '/') != NULL)
 	{
-		if (stat(args[0], &st) == 0)
-		{
-			execve(args[0], args, environ);
-			perror("execve");
-			exit(1);
-		}
-		printf("%s: %d: %s: not found\n", argv[0], linecount, args[0]);
-		exit(127);
+		execute_direct_command(args, argv, linecount, path_copy_local);
 	}
-
-	dir = strtok(path_copy_local, ":");
-	while (dir != NULL)
+	else
 	{
-		_strcpy(full_path, dir);
-		_strcat(full_path, "/");
-		_strcat(full_path, args[0]);
-		if (stat(full_path, &st) == 0)
-		{
-			execve(full_path, args, environ);
-			perror("execve");
-			exit(1);
-		}
-		dir = strtok(NULL, ":");
+		execute_path_command(args, path_copy_local, argv, linecount);
 	}
-	printf("%s: %d: %s: not found\n", argv[0], linecount, args[0]);
-	free(path_copy_local);
-	exit(127);
 }
 /**
  * handle_command - Handle built-in commands
@@ -159,6 +135,7 @@ void process_command(char **args, char **argv, int linecount, int *status,
 		if (pid == -1)
 		{
 			perror("fork");
+			cleanup_resources(line, path_copy);
 			exit(1);
 		}
 		else if (pid == 0)
@@ -168,6 +145,7 @@ void process_command(char **args, char **argv, int linecount, int *status,
 			if (new_path_copy == NULL)
 			{
 				fprintf(stderr, "Failed to get PATH\n");
+				cleanup_resources(line, path_copy);
 				exit(1);
 			}
 			execute_command(args, new_path_copy, argv, linecount);

@@ -39,6 +39,14 @@ void process_command(char **args, char **argv, int linecount, int *status,
 int _atoi(char *s);
 void print_help(char *command);
 char **split_commands(char *line, int *count);
+void cleanup_commands(char **cmds, int command_count);
+void cleanup_resources(char *line, char *path_copy);
+void execute_direct_command(char **args, char **argv,
+							int linecount, char *path_copy_local);
+void execute_path_command(char **args, char *path_copy_local,
+							char **argv, int linecount);
+void handle_commands(char **cmds, int command_count, char **args, char **argv,
+					int linecount, int *status, char *line, char *path_copy);
 
 
 

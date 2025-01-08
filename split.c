@@ -1,4 +1,7 @@
 #include "shell.h"
+#include <stdlib.h>
+#include <string.h>
+
 /**
  * split_commands - Split a line into multiple commands
  * @line: The line to split
@@ -9,20 +12,28 @@ char **split_commands(char *line, int *count)
 {
 	char **commands = NULL;
 	char *token;
-	int i = 0, j = 0;
+	int i = 0;
 
-	*count = 0;
-	commands = malloc(sizeof(char *) * 100);
-	if (!commands)
+	if (line == NULL || count == NULL)
 		return (NULL);
-
+	*count = 0;
+	for (i = 0; line[i]; i++)
+	{
+		if (line[i] == ';')
+			(*count)++;
+	}
+	(*count)++;
+	commands = malloc(sizeof(char *) * (*count + 1));
+	if (commands == NULL)
+		return (NULL);
+	i = 0;
 	token = strtok(line, ";");
 	while (token != NULL)
 	{
-		commands[i] = _strdup(token);
-		if (!commands[i])
+		commands[i] = strdup(token);
+		if (commands[i] == NULL)
 		{
-			for (j = 0; j < i; j++)
+			for (int j = 0; j < i; j++)
 				free(commands[j]);
 			free(commands);
 			return (NULL);
@@ -31,7 +42,5 @@ char **split_commands(char *line, int *count)
 		token = strtok(NULL, ";");
 	}
 	commands[i] = NULL;
-	*count = i;
-
 	return (commands);
 }
