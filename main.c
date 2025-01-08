@@ -60,10 +60,10 @@ void main_loop(char **argv, int interactive)
 		if (read_bytes == 1 && line[0] == '\n')
 			continue;
 		linecount++;
+		line[strcspn(line, "\n")] = 0;
 		cmds = split_commands(line, &command_count);
 		if (!cmds)
 		{
-			fprintf(stderr, "Memory allocation error\n");
 			continue;
 		}
 		for (i = 0; i < command_count; i++)
@@ -77,12 +77,13 @@ void main_loop(char **argv, int interactive)
 			free(cmds[i]);
 		free(cmds);
 		if (!interactive)
-			break;
+			continue;
 	}
 	free(line);
 	free(path_copy);
 	exit(WEXITSTATUS(status));
 }
+
 /**
  * main - Entry point
  * @argc: Argument count
