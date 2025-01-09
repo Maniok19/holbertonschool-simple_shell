@@ -50,6 +50,7 @@ void main_loop(char **argv, int interactive)
 	while (1)
 	{
 		prompt_user(interactive);
+		linecount++;
 		read_bytes = getline(&line, &len, stdin);
 		if (read_bytes == -1)
 		{
@@ -59,7 +60,6 @@ void main_loop(char **argv, int interactive)
 		}
 		if (read_bytes == 1 && line[0] == '\n')
 			continue;
-		linecount++;
 		line[strcspn(line, "\n")] = 0;
 		cmds = split_commands(line, &command_count);
 		if (!cmds)
