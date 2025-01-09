@@ -2,7 +2,8 @@
 
 ## Description
 This project is a simple UNIX command interpreter that replicates the basic functionalities of the shell. It reads commands from the user, executes them, and displays the output.
-
+## Flowchart
+![flowchart](flowchartshell.drawio.png)
 ## Features
 - Execute commands with arguments
 - Handle built-in commands like `exit` and `env`
