@@ -75,7 +75,8 @@ int handle_cd(char **args, int linecount, char **argv)
 
 	if (chdir(dir) == -1)
 	{
-		printf("%s: %d: %s: can't cd to %s\n", argv[0], linecount, args[0], dir);
+		fprintf(stderr, "%s: %d: %s: can't cd to %s\n", argv[0], linecount,
+		args[0], dir);
 		return (1);
 	}
 

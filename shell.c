@@ -66,7 +66,7 @@ void execute_command(char **args, char *path_copy, char **argv, int linecount)
 			perror("execve");
 			exit(1);
 		}
-		printf("%s: %d: %s: not found\n", argv[0], linecount, args[0]);
+		fprintf(stderr, "%s: %d: %s: not found\n", argv[0], linecount, args[0]);
 		exit(127);
 	}
 
@@ -84,7 +84,7 @@ void execute_command(char **args, char *path_copy, char **argv, int linecount)
 		}
 		dir = strtok(NULL, ":");
 	}
-	printf("%s: %d: %s: not found\n", argv[0], linecount, args[0]);
+	fprintf(stderr, "%s: %d: %s: not found\n", argv[0], linecount, args[0]);
 	free(path_copy_local);
 	exit(127);
 }
