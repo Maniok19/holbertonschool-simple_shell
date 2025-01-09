@@ -17,35 +17,78 @@ program does not take any options.
 
 .SH BUILT-IN COMMANDS
 .TP
-.B exit
-Exit the shell.
+.B cd [DIRECTORY]
+Change the current working directory. If no directory is specified, change to HOME directory.
+Special arguments:
+.BR \- 
+changes to previous directory
+.BR ~ 
+changes to home directory
+.TP
+.B exit [STATUS]
+Exit the shell with optional status code. Default is 0.
 .TP
 .B env
 Print the environment variables.
+.TP
+.B setenv VARIABLE VALUE
+Set or update an environment variable.
+.TP
+.B unsetenv VARIABLE
+Remove an environment variable.
+.TP
+.B help [COMMAND]
+Display help information about built-in commands.
+
+.SH FEATURES
+.TP
+\- Command execution with arguments
+.TP
+\- PATH resolution for commands
+.TP
+\- Handle multiple commands with semicolon (;)
+.TP
+\- Comments with #
+.TP
+\- Error handling and appropriate exit codes
+.TP
+\- Signal handling (Ctrl+C)
 
 .SH USAGE
 To start the shell, run:
 .EX
-$ ./shell
+$ ./hsh
 .EE
 
 .SH EXAMPLES
 Here are some examples of how to use the simple_shell:
 
 .EX
-$ ./simple_shell
+$ ./hsh
 $ ls -l
 total 8
 -rwxrwxr-x 1 user user  0 Oct  1 12:34 file1
 -rwxrwxr-x 1 user user  0 Oct  1 12:34 file2
+$ cd /tmp
+$ pwd
+/tmp
 $ env
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 HOME=/home/user
-$ exit
+$ echo Hello # This is a comment
+Hello
+$ ls -l ; pwd ; echo Hello
+[output of multiple commands]
+$ exit 42
 .EE
 
+.SH EXIT STATUS
+The shell returns the exit status of the last command executed, or 127 if the command is not found.
+
 .SH AUTHORS
-Mano and Sebastien
+Mano Delcourt <mano19029@hotmail.fr>
+.br
+Sebastien Georgescu <sebastien.georges11@gmail.com>
 
 .SH LICENSE
 This project is licensed under the MIT License.
