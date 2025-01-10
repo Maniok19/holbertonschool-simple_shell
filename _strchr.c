@@ -49,6 +49,9 @@ char *_getenv(const char *name)
 	char *result = NULL;
 	int i = 0, j;
 
+	if (name == NULL)
+		return (NULL);
+
 	while (environ[i])
 	{
 		j = 0;

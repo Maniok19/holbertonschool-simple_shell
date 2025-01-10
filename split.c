@@ -14,8 +14,10 @@ char **split_commands(char *line, int *count)
 	*count = 0;
 	commands = malloc(sizeof(char *) * 100);
 	if (!commands)
+	{
+		free(commands);
 		return (NULL);
-
+	}
 	token = strtok(line, ";");
 	while (token != NULL)
 	{

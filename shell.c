@@ -109,6 +109,7 @@ void handle_command(char **args, char **argv, int linecount, int *status,
 	if (_strcmp(args[0], "exit") == 0)
 	{
 		*status = handle_exit(args);
+		free(*args);
 		free(line);
 		if (path_copy)
 			free(path_copy);
